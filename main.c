@@ -7,23 +7,22 @@
 char Jota[1] = "j";
 const char *polybius_quadrant[5][5] = {{"a", "b", "c", "d", "e"}, {"f", "g", "h", "i", "k"}, {"l", "m", "n", "o", "p"}, {"q", "r", "s", "t", "u"}, {"v", "w", "x", "y", "z"}};
 
-char *encrypt(char *student)
+char *encrypt(char *str)
 {
-    printf("%s\n", student);
-    int studentLength = strlen(student);
+    int studentLength = strlen(str);
     char *encrypted = (char *)malloc(sizeof(char) * studentLength * 2);
     for (int z = 0; z < studentLength; z++)
     {
-        student[z] = tolower(student[z]); //Convierto las mayusculas en minusculas
-        if (student[z] == Jota[0])
-        { //Caso excepcional "j"
+        str[z] = tolower(str[z]);
+        if (str[z] == Jota[0])
+        {
             strcat(encrypted, "24");
         }
         for (int x = 0; x < 5; x++)
-        { //recorre la matiz polybius_quadrant[x][y]
+        {
             for (int y = 0; y < 5; y++)
             {
-                if (*polybius_quadrant[x][y] == student[z])
+                if (*polybius_quadrant[x][y] == str[z])
                 {
                     char buffer[3];
                     sprintf(buffer, "%d%d", x + 1, y + 1);
@@ -43,13 +42,10 @@ int main(int argc, char *argv[])
         return 0;
     }
     char *file = argv[1];
-    //Variables de Lectura del archivo
     char *line = NULL;
     unsigned long line_length = 0;
-    //Variable de encriptacion
-    // para el caso especial de i,j
-
     FILE *pfile = fopen(file, "r");
+
     if (pfile == NULL)
     {
         printf("ERROR\n");
@@ -57,19 +53,21 @@ int main(int argc, char *argv[])
     };
 
     long read;
+    char *encryptedStudent[3];
     while ((read = getline(&line, &line_length, pfile)) != -1)
-    {                                        //leo cada unas de las lineas archivo
-        char *student = strtok(line, COMMA); //LLamo al primer "token" del string que se descompone
+    {
+        char *tokenized = strtok(line, COMMA);
         for (int i = 0; i < 3; i++)
-        { //Itero la funcion para recorrer todos los "tokens" de la linea del archivo(que son 3, por eso i=3)
-            // printf("%s\n", student);
-            char *encrypted = encrypt(student);
-            // printf("%s\n", encrypted);
-            student = strtok(NULL, COMMA); //se vuelve a llamar a la funcion "strtok()"" para leer el siguiente "token"
+        {
+            char *encrypted = encrypt(tokenized);
+            encryptedStudent[i] = encrypted;
+            tokenized = strtok(NULL, COMMA);
         }
+        encryptedStudent[2] = tokenized;
+        printf("%s %s %s\n", encryptedStudent[0], encryptedStudent[1], encryptedStudent[2]);
+        // lo agrego al nodo
     }
 
-    //Cierro el archivo
     fclose(pfile);
     if (line)
     {
