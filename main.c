@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "./myStack.h"
 
 #define COMMA ","
-char Jota[1] = "j";
+char Jota[2] = "j";
 const char *polybius_quadrant[5][5] = {{"a", "b", "c", "d", "e"}, {"f", "g", "h", "i", "k"}, {"l", "m", "n", "o", "p"}, {"q", "r", "s", "t", "u"}, {"v", "w", "x", "y", "z"}};
 
 char *encrypt(char *str)
@@ -36,12 +37,12 @@ char *encrypt(char *str)
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2)
+    if (0)
     {
         printf("Ingrese el nombre del archivo\n");
         return 0;
     }
-    char *file = argv[1];
+    char *file = "notas.txt";
     char *line = NULL;
     unsigned long line_length = 0;
     FILE *pfile = fopen(file, "r");
@@ -54,16 +55,25 @@ int main(int argc, char *argv[])
 
     long read;
     char *encryptedStudent[3];
+    // crear el nodo HEAD
+    NODE *stack = NULL;
     while ((read = getline(&line, &line_length, pfile)) != -1)
     {
         char *tokenized = strtok(line, COMMA);
         for (int i = 0; i < 3; i++)
         {
-            char *encrypted = encrypt(tokenized);
-            encryptedStudent[i] = encrypted;
-            tokenized = strtok(NULL, COMMA);
+            if (i == 2)
+            {
+                encryptedStudent[i] = tokenized;
+            }
+            else
+            {
+                char *encrypted = encrypt(tokenized);
+                encryptedStudent[i] = encrypted;
+                tokenized = strtok(NULL, COMMA);
+            }
         }
-        encryptedStudent[2] = tokenized;
+        insertFirst(encryptedStudent[0], encryptedStudent[1], atoi(encryptedStudent[2]), &stack);
         printf("%s %s %s\n", encryptedStudent[0], encryptedStudent[1], encryptedStudent[2]);
         // lo agrego al nodo
     }

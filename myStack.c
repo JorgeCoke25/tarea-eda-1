@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "./mystack.h"
+#include "./myStack.h"
 
 //Las funciones las saque de las clases
 void insertFirst(char nombre[NLEN], char apellido[NLEN], int nota, NODE **head)
 {
-    NODE *newNode = crearNodo(nombre, apellido, nota);
+    NODE *newNode = createNodo(nombre, apellido, nota);
     if (isEmpty(*head))
     {
         *head = newNode;
@@ -18,7 +18,7 @@ void insertFirst(char nombre[NLEN], char apellido[NLEN], int nota, NODE **head)
     *head = newNode;
 }
 
-NODE *crearNodo(char nombre[NLEN], char apellido[NLEN], int nota)
+NODE *createNodo(char nombre[NLEN], char apellido[NLEN], int nota)
 {
     NODE *newNode = (NODE *)malloc(sizeof(NODE));
     if (newNode == NULL)
