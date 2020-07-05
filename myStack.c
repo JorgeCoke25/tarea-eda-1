@@ -5,9 +5,9 @@
 #include <string.h>
 
 // Las funciones las saque de las clases
-void insertFirst(char nombre[NLEN], char apellido[NLEN], int nota, NODE **head)
+void insertFirst(char name[NLEN], char lastname[NLEN], int grade, NODE **head)
 {
-  NODE *newNode = createNode(nombre, apellido, nota);
+  NODE *newNode = createNode(name, lastname, grade);
   if (isEmpty(*head))
   {
     *head = newNode;
@@ -18,7 +18,7 @@ void insertFirst(char nombre[NLEN], char apellido[NLEN], int nota, NODE **head)
   *head = newNode;
 }
 
-NODE *createNode(char nombre[NLEN], char apellido[NLEN], int nota)
+NODE *createNode(char name[NLEN], char lastname[NLEN], int grade)
 {
   NODE *newNode = (NODE *)malloc(sizeof(NODE));
   if (newNode == NULL)
@@ -28,10 +28,10 @@ NODE *createNode(char nombre[NLEN], char apellido[NLEN], int nota)
   }
   for (int i = 0; i < 30; i++)
   {
-    newNode->nombre[i] = nombre[i];
-    newNode->apellido[i] = apellido[i];
+    newNode->name[i] = name[i];
+    newNode->lastname[i] = lastname[i];
   }
-  newNode->nota = nota;
+  newNode->grade = grade;
   newNode->next = NULL;
   newNode->previous = NULL;
 
@@ -46,29 +46,7 @@ void printAll(NODE *head)
   int i = 1;
   while (current != NULL)
   {
-    printf("Node %d nombre: %s\n", i, current->nombre);
-    printf("Node %d apellido: %s\n", i, current->apellido);
-    printf("Node %d nota: %d\n", i, current->nota);
-    if (current->previous == NULL)
-    {
-      printf("Node %d previous is NULL\n", i);
-    }
-    else
-    {
-      printf("Node %d previous NODE nombre: %s\n", i, current->previous->nombre);
-      printf("Node %d previous NODE apellido: %s\n", i, current->previous->apellido);
-      printf("Node %d previous NODE nota: %d\n", i, current->previous->nota);
-    }
-    if (current->next == NULL)
-    {
-      printf("Node %d next is NULL\n", i);
-    }
-    else
-    {
-      printf("Node %d next NODE nombre: %s\n", i, current->next->nombre);
-      printf("Node %d next NODE apellido: %s\n", i, current->next->apellido);
-      printf("Node %d next NODE nota: %d\n", i, current->next->nota);
-    }
+    printf("Node %d: Name: %s, Lastname: %s, Grade: %d\n", i, current->name, current->lastname, current->grade);
     current = current->next;
     i++;
   }

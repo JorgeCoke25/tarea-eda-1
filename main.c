@@ -70,7 +70,6 @@ int main(int argc, char *argv[])
             tokenized = strtok(NULL, COMMA);
         }
         insertFirst(encryptedStudent[0], encryptedStudent[1], atoi(encryptedStudent[2]), &stack);
-        printf("%s %s %s\n", encryptedStudent[0], encryptedStudent[1], encryptedStudent[2]);
         // lo agrego al nodo
     }
     printAll(stack);

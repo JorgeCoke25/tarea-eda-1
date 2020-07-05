@@ -4,9 +4,9 @@
 
 typedef struct nd
 {
-  char nombre[NLEN];
-  char apellido[NLEN];
-  int nota;
+  char name[NLEN];
+  char lastname[NLEN];
+  int grade;
   struct nd *previous; // Equivalente a left en ABB
   struct nd *next;     // Equivalente a right en ABB
 } NODE;
