@@ -38,7 +38,7 @@ NODE *createNode(char name[NLEN], char lastname[NLEN], int grade)
   return newNode;
 }
 
-bool isEmpty(NODE *head) { return head == NULL; }
+bool isEmpty(NODE *head) { return getStackLength(head) == 0; }
 
 int getStackLength(NODE *head)
 {

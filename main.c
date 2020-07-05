@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
     }
 
     printf("%d\n", getStackLength(stack));
+    printf(isEmpty(stack) ? "true\n" : "false\n");
     fclose(pfile);
     if (line)
     {
