@@ -40,6 +40,22 @@ NODE *createNode(char name[NLEN], char lastname[NLEN], int grade)
 
 bool isEmpty(NODE *head) { return head == NULL; }
 
+int getStackLength(NODE *head)
+{
+  if (head == NULL)
+  {
+    return 0;
+  }
+  int length = 0;
+  NODE *current = head;
+  while (current != NULL)
+  {
+    length++;
+    current = current->next;
+  }
+  return length;
+}
+
 void printAll(NODE *head)
 {
   NODE *current = head;

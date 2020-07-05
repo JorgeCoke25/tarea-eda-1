@@ -18,3 +18,4 @@ bool isEmpty();
 NODE *createNode(char[NLEN], char[NLEN], int);
 void insertFirst(char[NLEN], char[NLEN], int, NODE **);
 void printAll(NODE *);
+int getStackLength(NODE *);

@@ -66,13 +66,18 @@ int main(int argc, char *argv[])
         char *tokenized = strtok(line, COMMA);
         for (int i = 0; i < 3; i++)
         {
-            strcpy(encryptedStudent[i], (i != 2) ? encrypt(tokenized) : tokenized);
+            //next line is a ternary expresion
+            char *newElement = (i != 2) ? encrypt(tokenized) : tokenized;
+            strcpy(encryptedStudent[i], newElement);
+            //previous two line are the same as
+            //strcpy(encryptedStudent[i], (i != 2) ? encrypt(tokenized) : tokenized);
             tokenized = strtok(NULL, COMMA);
         }
         insertFirst(encryptedStudent[0], encryptedStudent[1], atoi(encryptedStudent[2]), &stack);
         // lo agrego al nodo
     }
-    printAll(stack);
+
+    printf("%d\n", getStackLength(stack));
     fclose(pfile);
     if (line)
     {
