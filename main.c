@@ -1,62 +1,79 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<ctype.h>
-#include "./mystack.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
-int main(){
-    //Variables de Lectura del archivo
-    char *line = NULL;
-    unsigned long len = 0;
-    char archivo[30];
-    long read;
-    //Variables de la funcion strtok()
-    const char Coma[2] = ",";
-    char *Alumno;
-    //Variable del numero del alumno
-    int NumAlumno = 1;
-    //Variable de encriptacion
-    const char *polybius_quadrant[5][5]={{"a","b","c","d","e"},{"f","g","h","i","k"},{"l","m","n","o","p"},{"q","r","s","t","u"},{"v","w","x","y","z"}};
-    char Jota[1]="j";
-    
+#define COMMA ","
+char Jota[1] = "j";
+const char *polybius_quadrant[5][5] = {{"a", "b", "c", "d", "e"}, {"f", "g", "h", "i", "k"}, {"l", "m", "n", "o", "p"}, {"q", "r", "s", "t", "u"}, {"v", "w", "x", "y", "z"}};
 
-    printf("Ingrese el nombre del archivo (con .txt incluido):\n");
-    scanf("%s", &archivo);
-    FILE *pfile = fopen(archivo, "r");
-    if (pfile==NULL){
-        printf("ERRRROR\n");
-        return -1;
-    }   
-    
-    while((read = getline(&line,&len,pfile))!=-1){//leo cada unas de las lineas archivo
-        printf("\n%d.-",NumAlumno);//Indico el numero de alumno que es
-        Alumno = strtok(line,Coma);//LLamo al primer "token" del string que se descompone
-        for(int i=0;i<3;i++){//Itero la funcion para recorrer todos los "tokens" de la linea del archivo(que son 3, por eso i=3)
-            printf(" %s ",Alumno);
-            for(int z=0;z<strlen(Alumno);z++){
-                Alumno[z]=tolower(Alumno[z]);//Convierto las mayusculas en minusculas
-                if(Alumno[z]==Jota[0]){//Caso excepcional "j"
-                    printf("24");
-                }
-                for(int x=0;x<5;x++){//recorre la matiz polybius_quadrant[x][y]
-                    for(int y=0;y<5;y++){
-                        if(*polybius_quadrant[x][y]==Alumno[z]){
-                            printf("%d%d",x+1,y+1);
-                        }
-                    }
+char *encrypt(char *student)
+{
+    printf("%s\n", student);
+    int studentLength = strlen(student);
+    char *encrypted = (char *)malloc(sizeof(char) * studentLength * 2);
+    for (int z = 0; z < studentLength; z++)
+    {
+        student[z] = tolower(student[z]); //Convierto las mayusculas en minusculas
+        if (student[z] == Jota[0])
+        { //Caso excepcional "j"
+            strcat(encrypted, "24");
+        }
+        for (int x = 0; x < 5; x++)
+        { //recorre la matiz polybius_quadrant[x][y]
+            for (int y = 0; y < 5; y++)
+            {
+                if (*polybius_quadrant[x][y] == student[z])
+                {
+                    char buffer[3];
+                    sprintf(buffer, "%d%d", x + 1, y + 1);
+                    strcat(encrypted, buffer);
                 }
             }
-            Alumno= strtok(NULL,Coma);//se vuelve a llamar a la funcion "strtok()"" para leer el siguiente "token"
         }
-        NumAlumno+=1;
     }
+    return encrypted;
+};
 
+int main(int argc, char *argv[])
+{
+    if (argc < 2)
+    {
+        printf("Ingrese el nombre del archivo\n");
+        return 0;
+    }
+    char *file = argv[1];
+    //Variables de Lectura del archivo
+    char *line = NULL;
+    unsigned long line_length = 0;
+    //Variable de encriptacion
+    // para el caso especial de i,j
+
+    FILE *pfile = fopen(file, "r");
+    if (pfile == NULL)
+    {
+        printf("ERROR\n");
+        return -1;
+    };
+
+    long read;
+    while ((read = getline(&line, &line_length, pfile)) != -1)
+    {                                        //leo cada unas de las lineas archivo
+        char *student = strtok(line, COMMA); //LLamo al primer "token" del string que se descompone
+        for (int i = 0; i < 3; i++)
+        { //Itero la funcion para recorrer todos los "tokens" de la linea del archivo(que son 3, por eso i=3)
+            // printf("%s\n", student);
+            char *encrypted = encrypt(student);
+            // printf("%s\n", encrypted);
+            student = strtok(NULL, COMMA); //se vuelve a llamar a la funcion "strtok()"" para leer el siguiente "token"
+        }
+    }
 
     //Cierro el archivo
     fclose(pfile);
-    if(line){
+    if (line)
+    {
         free(line);
     }
-    return 0;  
+    return 0;
 }
-
