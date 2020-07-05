@@ -6,7 +6,11 @@
 
 #define COMMA ","
 char Jota[2] = "j";
-const char *polybius_quadrant[5][5] = {{"a", "b", "c", "d", "e"}, {"f", "g", "h", "i", "k"}, {"l", "m", "n", "o", "p"}, {"q", "r", "s", "t", "u"}, {"v", "w", "x", "y", "z"}};
+const char *polybius_quadrant[5][5] = {{"a", "b", "c", "d", "e"},
+                                       {"f", "g", "h", "i", "k"},
+                                       {"l", "m", "n", "o", "p"},
+                                       {"q", "r", "s", "t", "u"},
+                                       {"v", "w", "x", "y", "z"}};
 
 char *encrypt(char *str)
 {
@@ -54,7 +58,7 @@ int main(int argc, char *argv[])
     };
 
     long read;
-    char *encryptedStudent[3];
+    char encryptedStudent[3][NLEN];
     // crear el nodo HEAD
     NODE *stack = NULL;
     while ((read = getline(&line, &line_length, pfile)) != -1)
@@ -62,22 +66,14 @@ int main(int argc, char *argv[])
         char *tokenized = strtok(line, COMMA);
         for (int i = 0; i < 3; i++)
         {
-            if (i == 2)
-            {
-                encryptedStudent[i] = tokenized;
-            }
-            else
-            {
-                char *encrypted = encrypt(tokenized);
-                encryptedStudent[i] = encrypted;
-                tokenized = strtok(NULL, COMMA);
-            }
+            strcpy(encryptedStudent[i], (i != 2) ? encrypt(tokenized) : tokenized);
+            tokenized = strtok(NULL, COMMA);
         }
         insertFirst(encryptedStudent[0], encryptedStudent[1], atoi(encryptedStudent[2]), &stack);
         printf("%s %s %s\n", encryptedStudent[0], encryptedStudent[1], encryptedStudent[2]);
         // lo agrego al nodo
     }
-
+    printAll(stack);
     fclose(pfile);
     if (line)
     {
