@@ -2,3 +2,6 @@ Borrador.c
 *.exe
 main
 .vscode
+myStack
+main.dSYM
+

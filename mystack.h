@@ -2,8 +2,7 @@
 #define NLEN 30
 #include <stdbool.h>
 
-typedef struct nd
-{
+typedef struct nd {
   char name[NLEN];
   char lastname[NLEN];
   int grade;
@@ -11,11 +10,11 @@ typedef struct nd
   struct nd *next;     // Equivalente a right en ABB
 } NODE;
 
-void push(int);
-int pop();
+void push(NODE **, char name[NLEN], char lastname[NLEN], int grade);
+NODE *pop(NODE **);
 bool isFull();
-bool isEmpty();
+bool isEmpty(NODE **);
 NODE *createNode(char[NLEN], char[NLEN], int);
 void insertFirst(char[NLEN], char[NLEN], int, NODE **);
-void printAll(NODE *);
-int getStackLength(NODE *);
+void stackPrint(NODE *);
+int getStackLength(NODE **);
