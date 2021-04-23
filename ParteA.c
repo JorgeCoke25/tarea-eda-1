@@ -25,7 +25,7 @@ int main()
     FILE *pfile = fopen(archivo, "r");
     if (pfile == NULL)
     {
-        printf("ERRRROR\n");
+        printf("ERRRROAR\n");
         return -1;
     }
 
